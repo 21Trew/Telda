@@ -1,0 +1,54 @@
+<div class="day-view">
+  <!-- Заголовок с кнопкой возврата -->
+  <div class="header">
+    <button class="back-button" (click)="goToCalendar()">← Вернуться к календарю</button>
+    <h2>Задачи на {{ date }}</h2>
+    <input [(ngModel)]="searchQuery" placeholder="Найти задачу" />
+  </div>
+
+  <!-- Добавление новой задачи -->
+  <div class="add-task">
+    <input [(ngModel)]="newTaskText" placeholder="Новая задача" />
+    <button (click)="addTask()">Добавить</button>
+  </div>
+
+  <!-- Список невыполненных задач -->
+  <div class="tasks">
+    <div *ngFor="let task of filteredTasks(false)" class="task">
+      <input type="checkbox" [(ngModel)]="task.completed" />
+      <span
+        [attr.contenteditable]="isEditing(task) ? 'true' : 'false'"
+        (blur)="onBlur(task, $event)">
+    {{ task.text }}
+  </span>
+      <div class="task-actions">
+        <button (click)="editTask(task)">Редактировать</button>
+        <button (click)="deleteTask(task)">Удалить</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Выполненные задачи -->
+  <!-- Выполненные задачи -->
+  <div class="completed-tasks">
+    <div class="completed-header" (click)="toggleCompletedTasks()">
+      <h3>Выполненные задачи</h3>
+      <span>{{ isCompletedTasksVisible ? 'Свернуть' : 'Развернуть' }}</span>
+    </div>
+    <div *ngIf="isCompletedTasksVisible">
+      <div *ngFor="let task of filteredTasks(true)" class="task completed">
+        <input type="checkbox" [(ngModel)]="task.completed" />
+        <span
+          [attr.contenteditable]="isEditing(task) ? 'true' : 'false'"
+          (blur)="onBlur(task, $event)"
+          [class.completed]="task.completed">
+        {{ task.text }}
+      </span>
+        <div class="task-actions">
+          <button (click)="editTask(task)">Редактировать</button>
+          <button (click)="deleteTask(task)">Удалить</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

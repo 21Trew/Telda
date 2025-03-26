@@ -1,0 +1,18 @@
+<div class="calendar">
+  <div class="header">
+    <button (click)="prevMonth()">←</button>
+    <h2>{{ currentMonth.format('MMMM YYYY') }}</h2>
+    <button (click)="nextMonth()">→</button>
+  </div>
+  <div class="days">
+    <div *ngFor="let day of days"
+         class="day"
+         [class.today]="day.isToday"
+         [class.selected]="day.date === selectedDate"
+         [class.has-tasks]="day.hasTasks"
+         [class.other-month]="!day.isCurrentMonth"
+         (dblclick)="selectDay(day.date)">
+      {{ day.day }}
+    </div>
+  </div>
+</div>
